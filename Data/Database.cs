@@ -67,9 +67,9 @@ namespace ClientManagement.Data
                         connection.Execute("INSERT INTO Clients (Name, Age, Comment) VALUES (@Name, @Age, @Comment)", client, transaction: transaction);
                         var clientId = connection.QuerySingle<long>("SELECT last_insert_rowid()");
                         transaction.Commit();
-                        Console.WriteLine(clientId);
+                        // Console.WriteLine(clientId);
                         int clientIdInt = (int)clientId;
-                        Console.WriteLine(clientIdInt);
+                        // Console.WriteLine(clientIdInt);
                         AddActionHistory(clientIdInt, "Added");
                     }
                     catch (Exception ex)

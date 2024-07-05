@@ -13,7 +13,7 @@ namespace ClientManagement.Modules
     {
         private readonly Database _database;
 
-        public ClientModule() : base("/clients")
+        public ClientModule() : base("/client")
         {
             _database = new Database("Data Source=clients.db;Version=3;");
 
@@ -26,7 +26,7 @@ namespace ClientManagement.Modules
             };
             
             // Grąžinti konkretų klientą pagal ID
-            Get["/client/{id:int}"] = parameters =>
+            Get["/{id:int}"] = parameters =>
             {
                 int id = parameters.id;
                 var client = _database.GetClientById(id);
@@ -39,7 +39,7 @@ namespace ClientManagement.Modules
             };
             
             // Pridėti naują klientą
-            Post["/client"] = _ =>
+            Post["/add"] = _ =>
             {
                 var client = this.Bind<Client>();
                 _database.AddClient(client);
@@ -47,7 +47,7 @@ namespace ClientManagement.Modules
             };
             
             // Redaguoti esamą klientą
-            Put["/client/{id:int}"] = parameters =>
+            Put["/{id:int}"] = parameters =>
             {
                 int id = parameters.id;
                 var client = this.Bind<Client>();
@@ -57,7 +57,7 @@ namespace ClientManagement.Modules
             };
             
             // Ištrinti klientą
-            Delete["/client/{id:int}"] = parameters =>
+            Delete["/{id:int}"] = parameters =>
             {
                 int id = parameters.id;
                 _database.DeleteClient(id);
@@ -65,11 +65,12 @@ namespace ClientManagement.Modules
             };
 
             // Peržiūrėti su klientu atliktų veiksmų isoriją
-            Get["/client/{id:int}/history"] = parameters =>
+            Get["/{id:int}/history"] = parameters =>
             {
                 int id = parameters.id;
-                var history = _database.GetActionHistory(id);
-                return Response.AsJson(history);
+                var history = _database.GetActionHistory(id).ToList();
+                var json = JsonConvert.SerializeObject(history);
+                return Response.AsText(json, "application/json");
             };
         }
     }
