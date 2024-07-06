@@ -18,6 +18,7 @@ Add a new client.
   "Age": 12,
   "Comment": "komentaras"
 }
+```
 
 ### PUT /client/{id:int}
 Update client by ID.
@@ -29,3 +30,10 @@ Update client by ID.
   "Age": 12,
   "Comment": "komentaras"
 }
+```
+
+### DELETE /client/{id:int}
+Delete client by ID.
+
+### GET /client/{id:int}/history
+Get actions history of client by ID.
